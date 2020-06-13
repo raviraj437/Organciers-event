@@ -1,4 +1,6 @@
 from django.db import models
+from datetime import datetime
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import AbstractUser
 # Create your models here.
 class Category(models.Model):
@@ -29,6 +31,31 @@ class User(AbstractUser):
     #USERNAME_FIELD = 'email'
 
     def get_username(self):
-        return self.email
+        return self.username
 
+class Event(models.Model):
+    organiser_id = models.AutoField
+    status = models.BooleanField(default=True)
+    user_id = models.ForeignKey(User, default="", on_delete=models.CASCADE)
+    organiser_name = models.CharField(max_length=50)
+    notes = models.CharField(max_length=300)
+    budget = models.IntegerField(default=0)
+    contact_number = models.IntegerField(blank=True, null=True)
+    dateandtime = models.DateTimeField(default=datetime.now, blank=True)
 
+    def __str__(self):
+        return self.organiser_name
+
+class Testmonial(models.Model):
+    testmonial_id = models.AutoField
+    description = models.CharField(max_length=500, default="")
+    organisereventid = models.ForeignKey(Event, default="", on_delete=models.CASCADE)
+    rating = models.IntegerField(
+        default=5,
+        validators=[MaxValueValidator(5), MinValueValidator(1)]
+     )
+
+class ImageTestmonial(models.Model):
+    image_id = models.AutoField
+    testmonial_id = models.ForeignKey(Testmonial, default="", on_delete=models.CASCADE)
+    img = models.ImageField(default="")
