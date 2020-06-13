@@ -3,9 +3,9 @@ from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Category, Image, Video
+from .models import ImageTestmonial, Category, Image, Video, Event, Testmonial
 from rest_framework import generics
-from .serializers import CategorySerializer, ImageSerializer, VideoSerializer
+from .serializers import ImageTestmonialSerializer, CategorySerializer, TestmonialSerializer, EventSerializer, ImageSerializer, VideoSerializer
 from rest_framework.pagination import LimitOffsetPagination, PageNumberPagination
 # Create your views here.
 from rest_framework.permissions import AllowAny
@@ -46,4 +46,41 @@ class VideoList(generics.ListAPIView):
         categoryfilter = self.request.query_params.get('categoryid', None)
         if categoryfilter is not None:
             queryset = queryset.filter(category_id=categoryfilter)
+        return queryset
+
+class EventList(generics.ListAPIView):
+    pagination_class = StandardResultsSetPagination
+    serializer_class = EventSerializer
+    permissions_classes = [AllowAny]
+    def get_queryset(self):
+        queryset = Event.objects.all()
+        # print(self.request.query_params.get('categoryid'))
+        eventfilter = self.request.query_params.get('eventid', None)
+        if eventfilter is not None:
+            queryset = queryset.filter(organiser_id=eventfilter)
+        return queryset
+
+
+class TestmonialList(generics.ListAPIView):
+    pagination_class = StandardResultsSetPagination
+    serializer_class = TestmonialSerializer
+    permissions_classes = [AllowAny]
+    def get_queryset(self):
+        queryset = Testmonial.objects.all()
+        # print(self.request.query_params.get('categoryid'))
+        testmonialfilter = self.request.query_params.get('oragniserid', None)
+        if testmonialfilter is not None:
+            queryset = queryset.filter(organiser_id=testmonialfilter)
+        return queryset
+
+class ImageTestmonialList(generics.ListAPIView):
+    pagination_class = StandardResultsSetPagination
+    serializer_class = ImageTestmonialSerializer
+    permissions_classes = [AllowAny]
+    def get_queryset(self):
+        queryset = ImageTestmonial.objects.all()
+        # print(self.request.query_params.get('categoryid'))
+        Testmonialfilter = self.request.query_params.get('testmonialid', None)
+        if Testmonialfilter is not None:
+            queryset = queryset.filter(testmonial_id=Testmonialfilter)
         return queryset
