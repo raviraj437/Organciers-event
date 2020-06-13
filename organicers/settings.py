@@ -26,7 +26,10 @@ SECRET_KEY = '1qn#xvctj4ewytpjg#wmxf2_-4mfe4x&oqxnfxo*he&9$u=_ws'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    '35.184.138.248'
+]
 
 
 # Application definition
@@ -108,10 +111,10 @@ WSGI_APPLICATION = 'organicers.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd7o0salkf3g92m',
-        'USER': 'neuenfysucmcon',
-        'PASSWORD': '694cb7e5783eb571461a5ae3d2b24c092c1d70cc351b3383aa0c009c4c6de1e2',
-        'HOST': 'ec2-18-214-211-47.compute-1.amazonaws.com',
+        'NAME': 'theorganicers',
+        'USER': 'theorganicers',
+        'HOST': '127.0.0.1',
+        'PASSWORD': 'th3organic3rs',
         'PORT': '5432'
     }
 }
@@ -173,6 +176,7 @@ MEDIA_URL = '/image/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/image')
 
 AUTHENTICATION_BACKENDS = {
@@ -185,3 +189,4 @@ SITE_ID = 1
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 django_heroku.settings(locals())
+
